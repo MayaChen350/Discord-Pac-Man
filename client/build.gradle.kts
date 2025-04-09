@@ -1,5 +1,6 @@
 plugins {
     alias(libs.plugins.kotlin.multiplatform)
+id("com.github.node-gradle.node") version "7.1.0"
 }
 
 kotlin {
@@ -16,7 +17,20 @@ kotlin {
             implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.10.1")
             implementation(npm("@discord/embedded-app-sdk", "1.9.0"))
             implementation(npm("dotenv", "16.4.7"))
+implementation(npm("vite", "6.2.5"))
         }
+    }
+}
+
+// WIP Vite tasks 
+tasks {
+    val viteDev by registering(NpmTask::class) {
+        args.set(listOf("vite", "dev"))
+        dependsOn("installDependencies") // Install dependencies before running Vite
+    }
+
+    val installDependencies by registering(NpmTask::class) {
+        args.set(listOf("install"))
     }
 }
 
